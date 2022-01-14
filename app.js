@@ -5,8 +5,7 @@ require("dotenv").config();
 
 const app = express();
 
-const { testRouter } = require("./routes");
-const { ctrlWrapper } = require("./middlewares");
+const { testRouter, transactionsRouter } = require("./routes");
 
 const formatsLogger = app.get("env") === "development" ? "dev" : "short";
 
@@ -14,7 +13,8 @@ app.use(logger(formatsLogger));
 app.use(cors());
 app.use(express.json());
 
-app.use("/api/test", ctrlWrapper(testRouter));
+app.use("/api/test", testRouter);
+app.use("/api/transactions", transactionsRouter);
 
 app.use((req, res) => {
   res.status(404).json({ message: "Not found" });
