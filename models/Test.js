@@ -7,7 +7,7 @@ const testSchema = new Schema(
       required: [true, "Add field"],
     },
   },
-  { versionKey: false, timestamps: true }
+  { versionKey: false, timestamps: true },
 );
 
 const Test = model("test", testSchema);
