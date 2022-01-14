@@ -16,6 +16,7 @@ const categories = [
   "ЗП",
   "Доп. доход",
 ];
+// Перевести на eng название категорий
 
 const transactionSchema = new Schema(
   {
@@ -27,13 +28,12 @@ const transactionSchema = new Schema(
     amount: {
       type: Number,
       required: [true, "Enter the amount"],
-      //  validation - max 2 symbols after comma - middleware ??
+      //  validation - max 2 symbols after comma - middleware or client ??
     },
     category: {
       type: String,
       required: [true, "Enter the category"],
       enum: categories,
-      message: "Enter correct category",
     },
     subcategory: {
       type: String,
@@ -43,14 +43,20 @@ const transactionSchema = new Schema(
       day: {
         type: String,
         required: [true, "Enter the date"],
+        minLength: 1,
+        maxLength: 2,
       },
       month: {
         type: String,
         required: [true, "Enter the date"],
+        minLength: 1,
+        maxLength: 2,
       },
       year: {
         type: String,
         required: [true, "Enter the date"],
+        minLength: 4,
+        maxLength: 4,
       },
       // date validation
     },
