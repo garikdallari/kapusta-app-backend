@@ -1,3 +1,4 @@
 const test = require("./test");
+const transactions = require("./transactions");
 
-module.exports = { ...test };
+module.exports = { ...test, ...transactions };

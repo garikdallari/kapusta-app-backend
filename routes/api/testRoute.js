@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const { ctrlWrapper } = require("../../middlewares");
 
 const { testList } = require("../../controllers");
+const { ctrlWrapper } = require("../../middlewares");
 
 router.get("/", ctrlWrapper(testList));
 

@@ -5,8 +5,7 @@ require("dotenv").config();
 
 const app = express();
 
-const { testRouter } = require("./routes");
-const { authRouter } = require("./routes/");
+const { testRouter, transactionsRouter, authRouter } = require("./routes");
 
 const formatsLogger = app.get("env") === "development" ? "dev" : "short";
 
@@ -15,6 +14,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/api/test", testRouter);
+app.use("/api/transactions", transactionsRouter);
 app.use("/api/auth", authRouter);
 
 app.use((req, res) => {

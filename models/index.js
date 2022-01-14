@@ -1,7 +1,9 @@
 const { Test } = require("./Test");
-const auth = require('./auth');
+const { Transaction } = require("./Transaction");
+const auth = require("./auth");
 
 module.exports = {
   Test,
+  Transaction,
   auth,
 };
