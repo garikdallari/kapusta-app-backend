@@ -1,15 +1,16 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const { setErrorMessage } = require("../../helpers");
+const { Unauthorized } = require("http-errors");
 const { auth } = require("../../models");
 const { User } = auth;
 const { SECRET_KEY } = process.env;
+const createError = new Unauthorized("User is not authorized");
 
-const login = async (req, res) => {
+const login = async (req, res, next) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
 
-  if (!user || !user.comparePassword(password)) setErrorMessage(res);
+  if (!user || !user.comparePassword(password)) next(createError);
 
   const { _id } = user;
   const payload = {
