@@ -23,12 +23,11 @@ const transactionSchema = new Schema(
     type: {
       type: String,
       required: [true, 'Enter the type'],
-      enum: ['income', 'cost'],
+      enum: ['income', 'expense'],
     },
     amount: {
       type: Number,
       required: [true, 'Enter the amount'],
-      //  validation - max 2 symbols after comma - middleware or client ??
     },
     category: {
       type: String,
@@ -72,7 +71,7 @@ const transactionSchema = new Schema(
 const Transaction = model('transaction', transactionSchema);
 
 const joiTransactionsSchema = Joi.object({
-  type: Joi.string().required().valid('income', 'cost'),
+  type: Joi.string().required().valid('income', 'expense'),
   amount: Joi.number().required(),
   category: Joi.string()
     .required()
