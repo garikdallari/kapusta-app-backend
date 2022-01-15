@@ -1,4 +1,5 @@
-const { Schema, SchemaTypes, model } = require('mongoose');
+const { Schema, model } = require('mongoose');
+const Joi = require('joi');
 
 const categories = [
   'transport',
@@ -22,12 +23,11 @@ const transactionSchema = new Schema(
     type: {
       type: String,
       required: [true, 'Enter the type'],
-      enum: ['income', 'cost'],
+      enum: ['income', 'expense'],
     },
     amount: {
       type: Number,
       required: [true, 'Enter the amount'],
-      //  validation - max 2 symbols after comma - middleware or client ??
     },
     category: {
       type: String,
@@ -60,7 +60,7 @@ const transactionSchema = new Schema(
       // date validation
     },
     owner: {
-      type: SchemaTypes.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: 'authUser',
       required: true,
     },
@@ -70,6 +70,21 @@ const transactionSchema = new Schema(
 
 const Transaction = model('transaction', transactionSchema);
 
+const joiTransactionsSchema = Joi.object({
+  type: Joi.string().required().valid('income', 'expense'),
+  amount: Joi.number().required(),
+  category: Joi.string()
+    .required()
+    .valid(...categories),
+  subcategory: Joi.string(),
+  date: Joi.object({
+    day: Joi.string().required().min(1).max(2),
+    month: Joi.string().required().min(1).max(2),
+    year: Joi.string().required().min(4).max(4),
+  }),
+});
+
 module.exports = {
   Transaction,
+  joiTransactionsSchema,
 };
