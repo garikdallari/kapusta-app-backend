@@ -1,22 +1,21 @@
 const { Schema, SchemaTypes, model } = require('mongoose');
 
 const categories = [
-  'Транспорт',
-  'Продукты',
-  'Здоровье',
-  'Алкоголь',
-  'Развлечения',
-  'Всё для дома',
-  'Техника',
-  'Коммуналка, связь',
-  'Спорт, хобби',
-  'Образование',
-  'Прочее',
+  'transport',
+  'food',
+  'health',
+  'alcohol',
+  'activities',
+  'home_stuff',
+  'gadgets',
+  'utility_bills',
+  'hobbies',
+  'education',
+  'other',
   // ???
-  'ЗП',
-  'Доп. доход',
+  'salary',
+  'extra_income',
 ];
-// Перевести на eng название категорий
 
 const transactionSchema = new Schema(
   {
