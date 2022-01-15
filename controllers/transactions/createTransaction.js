@@ -1,6 +1,7 @@
-const { Transaction } = require("../../models");
+const { Transaction } = require('../../models');
 
 const createTransaction = async (req, res) => {
+  const { _id } = req.user;
   const { type, amount, category, subcategory, date } = req.body;
   const transaction = {
     type,
@@ -9,7 +10,10 @@ const createTransaction = async (req, res) => {
     subcategory,
     date,
   };
-  const newTransaction = await Transaction.create(transaction);
+  const newTransaction = await Transaction.create({
+    ...transaction,
+    owner: _id,
+  });
   res.status(201).json(newTransaction);
 };
 

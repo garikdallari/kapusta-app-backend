@@ -1,10 +1,15 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
 
-const { listTransactions, createTransaction } = require("../../controllers");
-const { ctrlWrapper } = require("../../middlewares");
+const {
+  listTransactions,
+  createTransaction,
+  getAllByMonth,
+} = require('../../controllers');
+const { authenticate, ctrlWrapper } = require('../../middlewares');
 
-router.get("/", ctrlWrapper(listTransactions));
-router.post("/", ctrlWrapper(createTransaction));
+router.get('/', ctrlWrapper(listTransactions));
+router.post('/', authenticate, ctrlWrapper(createTransaction));
+router.get('/getAllByMonth/:date', authenticate, ctrlWrapper(getAllByMonth));
 
 module.exports = router;
