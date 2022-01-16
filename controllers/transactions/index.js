@@ -3,6 +3,8 @@ const createTransaction = require('./createTransaction');
 const getAllByMonth = require('./getAllByMonth');
 const updateBalance = require('./updateBalance');
 const getAllByType = require('./getAllByType');
+const deleteTransaction = require('./deleteTransaction');
+
 
 module.exports = {
   listTransactions,
@@ -10,4 +12,6 @@ module.exports = {
   getAllByMonth,
   updateBalance,
   getAllByType,
+  deleteTransaction
+
 };
