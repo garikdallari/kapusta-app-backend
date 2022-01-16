@@ -12,7 +12,7 @@ const categories = [
   'utility_bills',
   'hobbies',
   'education',
-  'other',
+  'others',
   // ???
   'salary',
   'extra_income',
@@ -36,7 +36,7 @@ const transactionSchema = new Schema(
     },
     subcategory: {
       type: String,
-      default: 'Прочее',
+      default: 'others',
     },
     date: {
       day: {
