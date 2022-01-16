@@ -11,7 +11,6 @@ const current = async (req, res) => {
     data: {
       name: result.name,
       email: result.email,
-      subscription: "starter",
     },
   });
 };

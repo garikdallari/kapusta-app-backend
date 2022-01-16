@@ -1,5 +1,6 @@
-const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 const { Conflict } = require("http-errors");
+const { SECRET_KEY } = process.env;
 const { auth } = require("../../models");
 const { User } = auth;
 
@@ -11,15 +12,19 @@ const register = async (req, res) => {
   const newUser = new User({ name, email });
   newUser.setPassword(password);
   newUser.save();
-  // const hashedPassword = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
-  // const newUser = { name, email, password: hashedPassword };
-  // const result = await User.create(newUser);
+
+  const { _id } = newUser;
+  const payload = {
+    _id,
+  };
+  const token = jwt.sign(payload, SECRET_KEY);
 
   res.status(201).json({
     status: "success",
     code: 201,
     message: "Registration is successful",
     data: {
+      token,
       user: {
         name,
         email,
