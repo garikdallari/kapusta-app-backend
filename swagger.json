@@ -1,0 +1,112 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Kapusta API",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://kapusta-33-5-api.herokuapp.com"
+    },
+    {
+      "url": "http://localhost:8000",
+      "description": "Local server"
+    }
+  ],
+  "paths": {
+    "/api/transactions": {
+      "post": {
+        "tags": ["Transactions"],
+        "summary": "Create transaction",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateTransactionRequest"
+              },
+              "example": {
+                "type": "income",
+                "emount": 111.11,
+                "category": "food",
+                "subcategory": "milk",
+                "date": {
+                  "day": "16",
+                  "month": "1",
+                  "year": "2022"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Transaction is created"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    }
+  },
+
+  "components": {
+    "schemas": {
+      "CreateTransactionRequest": {
+        "type": "object",
+        "required": ["type", "amount", "category", "date"],
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "Transaction's type: 'income' or 'expens'",
+            "enum": ["income", "expense"]
+          },
+          "amount": {
+            "type": "number",
+            "descripription": "Transaction amount"
+          },
+          "category": {
+            "type": "string",
+            "description": "Transaction category",
+            "enum": [
+              "transport",
+              "food",
+              "health",
+              "alcohol",
+              "activities",
+              "home_stuff",
+              "gadgets",
+              "utility_bills",
+              "hobbies",
+              "education",
+              "others",
+              "salary",
+              "extra_income"
+            ]
+          },
+          "subcategory": {
+            "type": "string",
+            "description": "Transaction subcategory"
+          },
+          "date": {
+            "type": "object",
+            "description": "Date of transaction",
+            "properties": {
+              "day": {
+                "type": "string"
+              },
+              "month": {
+                "type": "string"
+              },
+              "year": {
+                "type": "string"
+              }
+            },
+            "required": ["day", "month", "year"]
+          }
+        }
+      }
+    }
+  }
+}
