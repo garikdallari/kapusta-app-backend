@@ -6,6 +6,7 @@ const {
   createTransaction,
   getAllByMonth,
   updateBalance,
+  getAllByType,
 } = require('../../controllers');
 const { authenticate, ctrlWrapper, validation } = require('../../middlewares');
 const { joiTransactionsSchema } = require('../../models');
@@ -19,5 +20,6 @@ router.post(
 );
 router.get('/getAllByMonth/:date', authenticate, ctrlWrapper(getAllByMonth));
 router.patch('/updateBalance', authenticate, ctrlWrapper(updateBalance));
+router.get('/getAllByType/:type', authenticate, ctrlWrapper(getAllByType));
 
 module.exports = router;
