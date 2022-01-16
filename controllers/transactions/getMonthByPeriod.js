@@ -1,11 +1,12 @@
 const { Transaction } = require('../../models');
 
 const getMonthByPeriod = async (req, res) => {
-  const { period } = req.params;
-  const periodLenght = period.length;
-  if (period) {
-    if (periodLenght <= 4) {
-      const year = period;
+  const { data } = req.params;
+  const [month, year] = date.split('-');
+  const dataLenght = data.length;
+  if (data) {
+    if (dataLenght <= 4) {
+      const year = data.year;
       const result = await Transaction.find({ owner: req.user._id, year });
       res.json({
         status: 'success',
@@ -14,10 +15,9 @@ const getMonthByPeriod = async (req, res) => {
       });
     }
   }
-  if (periodLenght > 5) {
-    const newPeriod = period.split('-');
-    const month = newPeriod[0];
-    const year = newPeriod[1];
+  if (dataLenght > 5) {
+    const month = data.month;
+    const year = data.year;
     const result = await Transaction.find({
       owner: req.user._id,
       year,
