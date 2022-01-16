@@ -10,11 +10,17 @@ const createTransaction = async (req, res) => {
     subcategory,
     date,
   };
+
   const newTransaction = await Transaction.create({
     ...transaction,
     owner: _id,
   });
-  res.status(201).json(newTransaction);
+
+  res.status(201).json({
+    status: 'success',
+    code: 201,
+    data: newTransaction,
+  });
 };
 
 module.exports = createTransaction;
