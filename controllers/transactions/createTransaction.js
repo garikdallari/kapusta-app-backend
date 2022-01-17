@@ -1,4 +1,5 @@
 const { Transaction } = require('../../models');
+const { updateBalance } = require('../../helpers');
 
 const createTransaction = async (req, res) => {
   const { _id } = req.user;
@@ -15,6 +16,8 @@ const createTransaction = async (req, res) => {
     ...transaction,
     owner: _id,
   });
+
+  await updateBalance(_id, amount, type);
 
   res.status(201).json({
     status: 'success',
