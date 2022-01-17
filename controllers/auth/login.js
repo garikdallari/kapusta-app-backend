@@ -1,9 +1,8 @@
-const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { Unauthorized } = require("http-errors");
+const { SECRET_KEY } = process.env;
 const { auth } = require("../../models");
 const { User } = auth;
-const { SECRET_KEY } = process.env;
 const createError = new Unauthorized("User is not authorized");
 
 const login = async (req, res, next) => {
@@ -24,6 +23,10 @@ const login = async (req, res, next) => {
     code: 200,
     data: {
       token,
+      user: {
+        name: user.name,
+        email 
+        },
     },
   });
 };
