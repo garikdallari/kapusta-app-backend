@@ -1,15 +1,22 @@
 const { Transaction } = require('../../models');
-const { updateBalance } = require('../../helpers');
+const { updateBalance, removeLeadZeroString } = require('../../helpers');
 
 const createTransaction = async (req, res) => {
   const { _id } = req.user;
   const { type, amount, category, subcategory, date } = req.body;
+
+  const normalizeDate = {
+    day: removeLeadZeroString(date.day),
+    month: removeLeadZeroString(date.month),
+    year: date.year,
+  };
+
   const transaction = {
     type,
     amount,
     category,
     subcategory,
-    date,
+    date: normalizeDate,
   };
 
   const newTransaction = await Transaction.create({

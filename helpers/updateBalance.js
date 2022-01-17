@@ -7,7 +7,6 @@ const amount = 10.222;
 const type = 'income';
 
 const updateBalance = async (_id, amount, type) => {
-  console.log('UPDATE BALANCE HELPER');
   console.log(_id, amount, type);
   const user = await User.findOne({ _id });
   let balance = user.balance;
