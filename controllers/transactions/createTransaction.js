@@ -1,5 +1,9 @@
 const { Transaction } = require('../../models');
-const { updateBalance, removeLeadZeroString } = require('../../helpers');
+const {
+  updateBalance,
+  removeLeadZeroString,
+  normalizeSum,
+} = require('../../helpers');
 
 const createTransaction = async (req, res) => {
   const { _id } = req.user;
@@ -11,9 +15,11 @@ const createTransaction = async (req, res) => {
     year: date.year,
   };
 
+  const normalizedAmount = normalizeSum(amount);
+
   const transaction = {
     type,
-    amount,
+    amount: normalizedAmount,
     category,
     subcategory,
     date: normalizedDate,

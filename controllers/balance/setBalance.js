@@ -1,11 +1,12 @@
 const {
   auth: { User },
 } = require('../../models');
+const { normalizeSum } = require('../../helpers');
 
 const setBalance = async (req, res) => {
   const { _id } = req.user;
   const { balance } = req.body;
-  const newBalance = balance.toFixed(2);
+  const newBalance = normalizeSum(balance);
 
   const updatedUser = await User.findOneAndUpdate(
     { _id },
