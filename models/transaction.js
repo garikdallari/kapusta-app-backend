@@ -28,6 +28,7 @@ const transactionSchema = new Schema(
     amount: {
       type: Number,
       required: [true, 'Enter the amount'],
+      min: 0,
     },
     category: {
       type: String,
@@ -72,7 +73,7 @@ const Transaction = model('transaction', transactionSchema);
 
 const joiTransactionsSchema = Joi.object({
   type: Joi.string().required().valid('income', 'expense'),
-  amount: Joi.number().required(),
+  amount: Joi.number().required().min(0),
   category: Joi.string()
     .required()
     .valid(...categories),

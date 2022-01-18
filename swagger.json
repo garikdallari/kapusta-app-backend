@@ -1,0 +1,549 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Kapusta API",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://kapusta-33-5-api.herokuapp.com"
+    },
+    {
+      "url": "http://localhost:8000",
+      "description": "Local server"
+    }
+  ],
+  "paths": {
+    "/api/auth/signup": {
+      "post": {
+        "tags": ["User"],
+        "summary": "Create user",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateUser"
+              },
+              "example": {
+                "name": "Vasyl",
+                "email": "vasyl@gmail.com",
+                "password": "pass123"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User is created",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "code": 201,
+                  "message": "Registration is successful",
+                  "data": {
+                    "user": {
+                      "name": "Vasyl",
+                      "email": "vasyl@gmail.com"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "User with such email already registered"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/api/auth/login": {
+      "post": {
+        "tags": ["User"],
+        "summary": "Login user",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginUser"
+              },
+              "example": {
+                "email": "vasyl@gmail.com",
+                "password": "pass123"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User is created",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "code": 201,
+                  "message": "Registration is successful",
+                  "data": {
+                    "user": {
+                      "status": "success",
+                      "code": 200,
+                      "data": {
+                        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MWU1OWFhMDFmMmNjNWY3YTE4YmU2ZWIiLCJpYXQiOjE2NDI0Mzc2Njl9.L6BEpROWjYMQR8XUcITrMAtkL4EO-A7Jm00EjGnJ5_E"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "User with such email is not exist or password is not correct"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/api/auth/current": {
+      "get": {
+        "tags": ["User"],
+        "summary": "Get information about current user",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "description": "Token is given to the user",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User is created",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "code": 200,
+                  "data": {
+                    "name": "Vasyl",
+                    "email": "vasyl@gmail.com"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/api/auth/logout": {
+      "get": {
+        "tags": ["User"],
+        "summary": "Logout user",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "description": "Token is given to the user",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User logged out",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "code": 200,
+                  "message": "successed logout"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/api/auth/balance": {
+      "get": {
+        "tags": ["Balance"],
+        "summary": "Get balance",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "description": "Token is given to the user",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Balance is recieved",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "code": 200,
+                  "data": {
+                    "user": {
+                      "balance": 10000
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/api/transactions": {
+      "post": {
+        "tags": ["Transactions"],
+        "summary": "Create transaction",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "description": "Token is given to the user",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateTransactionRequest"
+              },
+              "example": {
+                "type": "income",
+                "emount": 111.11,
+                "category": "food",
+                "subcategory": "milk",
+                "date": {
+                  "day": "16",
+                  "month": "1",
+                  "year": "2022"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Transaction is created",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "code": 201,
+                  "data": {
+                    "type": "income",
+                    "emount": 111.11,
+                    "category": "food",
+                    "subcategory": "milk",
+                    "date": {
+                      "day": "16",
+                      "month": "1",
+                      "year": "2022"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/api/{transactionId}": {
+      "delete": {
+        "tags": ["Transactions"],
+        "summary": "Delete transaction",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "description": "Token is given to the user",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "transactionId",
+            "required": true,
+            "description": "User Id",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Transaction is deleted",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "code": 200,
+                  "message": "transaction deleted",
+                  "result": {
+                    "date": {
+                      "day": "16",
+                      "month": "3",
+                      "year": "2021"
+                    },
+                    "_id": "61e5856fdc610f72db94ab8b",
+                    "type": "income",
+                    "amount": 25,
+                    "category": "food",
+                    "subcategory": "fruit",
+                    "owner": "61e46748fcbb1962cf8cc146",
+                    "createdAt": "2022-01-17T15:04:15.927Z",
+                    "updatedAt": "2022-01-17T15:04:15.927Z"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Transaction not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/api/transactions/getAllByType/{transactionType}": {
+      "get": {
+        "tags": ["Transactions"],
+        "summary": "Get all transactions by type",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "description": "Token is given to the user",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "transactionType",
+            "required": true,
+            "description": "Type of transaction",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Transactions are recieved",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "code": 200,
+                  "data": {
+                    "result": [
+                      {
+                        "date": {
+                          "day": "16",
+                          "month": "1",
+                          "year": "2022"
+                        },
+                        "_id": "61e46ae5fcbb1962cf8cc151",
+                        "type": "income",
+                        "amount": 30,
+                        "category": "food",
+                        "subcategory": "fruit",
+                        "owner": "61e46748fcbb1962cf8cc146",
+                        "createdAt": "2022-01-16T18:58:45.683Z",
+                        "updatedAt": "2022-01-16T18:58:45.683Z"
+                      },
+                      {
+                        "date": {
+                          "day": "16",
+                          "month": "3",
+                          "year": "2021"
+                        },
+                        "_id": "61e55c8495ba6cb12aee4631",
+                        "type": "income",
+                        "amount": 25,
+                        "category": "food",
+                        "subcategory": "fruit",
+                        "owner": "61e46748fcbb1962cf8cc146",
+                        "createdAt": "2022-01-17T12:09:40.733Z",
+                        "updatedAt": "2022-01-17T12:09:40.733Z"
+                      },
+                      {
+                        "date": {
+                          "day": "16",
+                          "month": "3",
+                          "year": "2021"
+                        },
+                        "_id": "61e55cc695ba6cb12aee4634",
+                        "type": "income",
+                        "amount": 25,
+                        "category": "food",
+                        "subcategory": "fruit",
+                        "owner": "61e46748fcbb1962cf8cc146",
+                        "createdAt": "2022-01-17T12:10:46.414Z",
+                        "updatedAt": "2022-01-17T12:10:46.414Z"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    }
+  },
+
+  "components": {
+    "schemas": {
+      "CreateUser": {
+        "type": "object",
+        "required": ["name", "email", "password"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "User name"
+          },
+          "email": {
+            "type": "string",
+            "description": "User email"
+          },
+          "password": {
+            "type": "string",
+            "description": "User password"
+          }
+        }
+      },
+      "LoginUser": {
+        "type": "object",
+        "required": ["name", "email", "password"],
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "User email"
+          },
+          "password": {
+            "type": "string",
+            "description": "User password"
+          }
+        }
+      },
+      "CreateTransactionRequest": {
+        "type": "object",
+        "required": ["type", "amount", "category", "date"],
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "Transaction's type: 'income' or 'expens'",
+            "enum": ["income", "expense"]
+          },
+          "amount": {
+            "type": "number",
+            "descripription": "Transaction amount"
+          },
+          "category": {
+            "type": "string",
+            "description": "Transaction category",
+            "enum": [
+              "transport",
+              "food",
+              "health",
+              "alcohol",
+              "activities",
+              "home_stuff",
+              "gadgets",
+              "utility_bills",
+              "hobbies",
+              "education",
+              "others",
+              "salary",
+              "extra_income"
+            ]
+          },
+          "subcategory": {
+            "type": "string",
+            "description": "Transaction subcategory"
+          },
+          "date": {
+            "type": "object",
+            "description": "Date of transaction",
+            "properties": {
+              "day": {
+                "type": "string"
+              },
+              "month": {
+                "type": "string"
+              },
+              "year": {
+                "type": "string"
+              }
+            },
+            "required": ["day", "month", "year"]
+          }
+        }
+      }
+    }
+  }
+}
