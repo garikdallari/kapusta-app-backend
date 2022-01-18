@@ -8,7 +8,7 @@ const {
   updateBalance,
   getAllByType,
   deleteTransaction,
-  getBalanceByMonth,
+  getBalanceBy6Month,
 
 } = require('../../controllers');
 const { authenticate, ctrlWrapper, validation } = require('../../middlewares');
@@ -25,6 +25,6 @@ router.get('/getAllByMonth/:date', authenticate, ctrlWrapper(getAllByMonth));
 router.patch('/updateBalance', authenticate, ctrlWrapper(updateBalance));
 router.get('/getAllByType/:type', authenticate, ctrlWrapper(getAllByType));
 router.delete('/:id', authenticate, ctrlWrapper(deleteTransaction));
-router.get('/getBalanceByMonth/:type', authenticate, ctrlWrapper(getBalanceByMonth));
+router.get('/getBalanceBy6Month/:type', authenticate, ctrlWrapper(getBalanceBy6Month));
 
 module.exports = router;

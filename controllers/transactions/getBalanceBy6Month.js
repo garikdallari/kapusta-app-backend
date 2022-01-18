@@ -1,6 +1,6 @@
 const {Transaction} = require('../../models');
 
-const getBalanceByMonth = async (req, res) => {
+const getBalanceBy6Month = async (req, res) => {
     const {_id} = req.user;
     const {type} = req.params;
   
@@ -65,4 +65,4 @@ const getBalanceByMonth = async (req, res) => {
     })
 }
 
-module.exports = getBalanceByMonth;
+module.exports = getBalanceBy6Month;
