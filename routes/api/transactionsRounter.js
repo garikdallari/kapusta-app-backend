@@ -2,19 +2,15 @@ const express = require('express');
 const router = express.Router();
 
 const {
-  listTransactions,
   createTransaction,
   getAllByMonth,
-  updateBalance,
   getAllByType,
   deleteTransaction,
   getBalanceBy6Month,
-
 } = require('../../controllers');
 const { authenticate, ctrlWrapper, validation } = require('../../middlewares');
 const { joiTransactionsSchema } = require('../../models');
 
-router.get('/', ctrlWrapper(listTransactions));
 router.post(
   '/',
   authenticate,
@@ -22,9 +18,12 @@ router.post(
   ctrlWrapper(createTransaction),
 );
 router.get('/getAllByMonth/:date', authenticate, ctrlWrapper(getAllByMonth));
-router.patch('/updateBalance', authenticate, ctrlWrapper(updateBalance));
 router.get('/getAllByType/:type', authenticate, ctrlWrapper(getAllByType));
 router.delete('/:id', authenticate, ctrlWrapper(deleteTransaction));
-router.get('/getBalanceBy6Month/:type', authenticate, ctrlWrapper(getBalanceBy6Month));
+router.get(
+  '/getBalanceBy6Month/:type',
+  authenticate,
+  ctrlWrapper(getBalanceBy6Month),
+);
 
 module.exports = router;
