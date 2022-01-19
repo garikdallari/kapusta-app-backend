@@ -8,7 +8,7 @@ const getBalanceBy6Month = async (req, res) => {
     let currentMonth = currentDate.getMonth() + 1;
     let currentYear = currentDate.getFullYear();
     const monthArr = [];
-    const yearArr = [currentYear];
+    const yearArr = [currentYear.toString()];
     let balanceByMonth = [];   
 
     for (let i = 6; i > 0; i--) {
