@@ -43,6 +43,7 @@
                   "code": 201,
                   "message": "Registration is successful",
                   "data": {
+                    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MWU3MjFjZTA2OWZmNzJjNGQ5NDgxZGIiLCJpYXQiOjE2NDI1Mzc0MjJ9.D-_DPtyy3NHryWhfY2R8T4KZyH3RmYeZNbGptlaNyVk",
                     "user": {
                       "name": "Vasyl",
                       "email": "vasyl@gmail.com"
@@ -80,21 +81,18 @@
           }
         },
         "responses": {
-          "201": {
+          "200": {
             "description": "User is created",
             "content": {
               "application/json": {
                 "example": {
                   "status": "success",
-                  "code": 201,
-                  "message": "Registration is successful",
+                  "code": 200,
                   "data": {
+                    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MWU3MjFjZTA2OWZmNzJjNGQ5NDgxZGIiLCJpYXQiOjE2NDI1Mzc1ODN9.yCUUpXzhO7HWx3iLRv85HaPEYUG3Vi2CwuX4Ggj51W0",
                     "user": {
-                      "status": "success",
-                      "code": 200,
-                      "data": {
-                        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MWU1OWFhMDFmMmNjNWY3YTE4YmU2ZWIiLCJpYXQiOjE2NDI0Mzc2Njl9.L6BEpROWjYMQR8XUcITrMAtkL4EO-A7Jm00EjGnJ5_E"
-                      }
+                      "name": "Vasyl",
+                      "email": "vasyl@gmail.com"
                     }
                   }
                 }
@@ -226,6 +224,54 @@
             "description": "Server error"
           }
         }
+      },
+      "patch": {
+        "tags": ["Balance"],
+        "summary": "Set balance",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "description": "Token is given to the user",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SetBalance"
+              },
+              "example": {
+                "balance": "10000"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Balance is recieved",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "code": 201,
+                  "balance": 10000
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
       }
     },
     "/api/transactions": {
@@ -248,15 +294,15 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateTransactionRequest"
+                "$ref": "#/components/schemas/CreateTransaction"
               },
               "example": {
-                "type": "income",
-                "emount": 111.11,
+                "type": "expense",
+                "amount": 111.11,
                 "category": "food",
                 "subcategory": "milk",
                 "date": {
-                  "day": "16",
+                  "day": "18",
                   "month": "1",
                   "year": "2022"
                 }
@@ -273,16 +319,21 @@
                   "status": "success",
                   "code": 201,
                   "data": {
-                    "type": "income",
-                    "emount": 111.11,
+                    "type": "expense",
+                    "amount": 111.11,
                     "category": "food",
                     "subcategory": "milk",
                     "date": {
-                      "day": "16",
+                      "day": "18",
                       "month": "1",
                       "year": "2022"
-                    }
-                  }
+                    },
+                    "owner": "61e721ce069ff72c4d9481db",
+                    "_id": "61e730c51fbb82b1c1d40cb9",
+                    "createdAt": "2022-01-18T21:27:33.015Z",
+                    "updatedAt": "2022-01-18T21:27:33.015Z"
+                  },
+                  "balance": 10222.220000000001
                 }
               }
             }
@@ -331,18 +382,18 @@
                   "message": "transaction deleted",
                   "result": {
                     "date": {
-                      "day": "16",
-                      "month": "3",
-                      "year": "2021"
+                      "day": "18",
+                      "month": "1",
+                      "year": "2022"
                     },
-                    "_id": "61e5856fdc610f72db94ab8b",
-                    "type": "income",
-                    "amount": 25,
+                    "_id": "61e730c51fbb82b1c1d40cb9",
+                    "type": "expense",
+                    "amount": 111.11,
                     "category": "food",
-                    "subcategory": "fruit",
-                    "owner": "61e46748fcbb1962cf8cc146",
-                    "createdAt": "2022-01-17T15:04:15.927Z",
-                    "updatedAt": "2022-01-17T15:04:15.927Z"
+                    "subcategory": "milk",
+                    "owner": "61e721ce069ff72c4d9481db",
+                    "createdAt": "2022-01-18T21:27:33.015Z",
+                    "updatedAt": "2022-01-18T21:27:33.015Z"
                   }
                 }
               }
@@ -396,48 +447,182 @@
                     "result": [
                       {
                         "date": {
-                          "day": "16",
+                          "day": "18",
                           "month": "1",
                           "year": "2022"
                         },
-                        "_id": "61e46ae5fcbb1962cf8cc151",
-                        "type": "income",
-                        "amount": 30,
+                        "_id": "61e7305f1fbb82b1c1d40caf",
+                        "type": "expense",
+                        "amount": 111.11,
                         "category": "food",
-                        "subcategory": "fruit",
-                        "owner": "61e46748fcbb1962cf8cc146",
-                        "createdAt": "2022-01-16T18:58:45.683Z",
-                        "updatedAt": "2022-01-16T18:58:45.683Z"
+                        "subcategory": "milk",
+                        "owner": "61e721ce069ff72c4d9481db",
+                        "createdAt": "2022-01-18T21:25:51.906Z",
+                        "updatedAt": "2022-01-18T21:25:51.906Z"
                       },
                       {
                         "date": {
-                          "day": "16",
-                          "month": "3",
-                          "year": "2021"
+                          "day": "18",
+                          "month": "1",
+                          "year": "2022"
                         },
-                        "_id": "61e55c8495ba6cb12aee4631",
-                        "type": "income",
-                        "amount": 25,
+                        "_id": "61e730641fbb82b1c1d40cb4",
+                        "type": "expense",
+                        "amount": 111.11,
                         "category": "food",
-                        "subcategory": "fruit",
-                        "owner": "61e46748fcbb1962cf8cc146",
-                        "createdAt": "2022-01-17T12:09:40.733Z",
-                        "updatedAt": "2022-01-17T12:09:40.733Z"
+                        "subcategory": "milk",
+                        "owner": "61e721ce069ff72c4d9481db",
+                        "createdAt": "2022-01-18T21:25:56.214Z",
+                        "updatedAt": "2022-01-18T21:25:56.214Z"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/getAllByMonth/{date}": {
+      "get": {
+        "tags": ["Transactions"],
+        "summary": "Get summary by categories and subcategories",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "description": "Token is given to the user",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "date",
+            "required": true,
+            "description": "Month of transaction (mm-yyyy)",
+            "schema": {
+              "type": "string"
+            },
+            "example": "mm-yyyy"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Transactions are recieved",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "code": 200,
+                  "result": {
+                    "expense": {
+                      "categories": {
+                        "food": {
+                          "subcategories": {
+                            "milk": 111.11,
+                            "bread": 30
+                          },
+                          "sum": 141.11
+                        },
+                        "activities": {
+                          "subcategories": {
+                            "movie": 150,
+                            "others": 150
+                          },
+                          "sum": 300
+                        }
+                      },
+                      "sum": 441.11
+                    },
+                    "income": {
+                      "categories": {
+                        "salary": {
+                          "subcategories": {
+                            "others": 15000
+                          },
+                          "sum": 15000
+                        },
+                        "extra_income": {
+                          "subcategories": {
+                            "bonus": 5000,
+                            "others": 7000
+                          },
+                          "sum": 12000
+                        }
+                      },
+                      "sum": 27000
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/getBalanceBy6Month/{type}": {
+      "get": {
+        "tags": ["Transactions"],
+        "summary": "Get amounts for the last 6 months",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "description": "Token is given to the user",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "type",
+            "required": true,
+            "description": "Transaction type",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Transactions are recieved",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "code": 200,
+                  "result": {
+                    "balanceByMonth": [
+                      {
+                        "month": "12",
+                        "amount": 7000,
+                        "type": "income"
                       },
                       {
-                        "date": {
-                          "day": "16",
-                          "month": "3",
-                          "year": "2021"
-                        },
-                        "_id": "61e55cc695ba6cb12aee4634",
-                        "type": "income",
-                        "amount": 25,
-                        "category": "food",
-                        "subcategory": "fruit",
-                        "owner": "61e46748fcbb1962cf8cc146",
-                        "createdAt": "2022-01-17T12:10:46.414Z",
-                        "updatedAt": "2022-01-17T12:10:46.414Z"
+                        "month": "11",
+                        "amount": 14000,
+                        "type": "income"
+                      },
+                      {
+                        "month": "10",
+                        "amount": 10000,
+                        "type": "income"
                       }
                     ]
                   }
@@ -490,7 +675,17 @@
           }
         }
       },
-      "CreateTransactionRequest": {
+      "SetBalance": {
+        "type": "object",
+        "required": ["balance"],
+        "properties": {
+          "balance": {
+            "type": "string",
+            "description": "New user balance"
+          }
+        }
+      },
+      "CreateTransaction": {
         "type": "object",
         "required": ["type", "amount", "category", "date"],
         "properties": {
