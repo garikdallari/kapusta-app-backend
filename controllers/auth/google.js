@@ -1,5 +1,9 @@
 const queryString = require('query-string');
 const axios = require('axios');
+const {
+  auth: { User },
+} = require('../../models');
+const jwt = require('jsonwebtoken');
 
 const googleAuth = (req, res) => {
   const stringifyParams = queryString.stringify({
@@ -43,11 +47,25 @@ const googleRedirect = async (req, res) => {
     },
   });
 
-  console.log('USER_DATA', userData.data);
+  const user = await User.findOne({ email: userData.data.email });
+  let token = '';
 
-  return res.redirect(
-    `${process.env.FRONTEND_URL}?email=${userData.data.email}`,
-  );
+  const addToken = id => {
+    token = jwt.sign({ _id: id }, process.env.SECRET_KEY);
+    User.findOneAndUpdate({ email: userData.data.email }, { token });
+  };
+
+  if (!user) {
+    const user = await User.create({
+      name: userData.data.name,
+      email: userData.data.email,
+    });
+    await addToken(user._id);
+  } else {
+    await addToken(user._id);
+  }
+
+  return res.redirect(`${process.env.FRONTEND_URL}?token=${token}`);
 };
 
 module.exports = {
