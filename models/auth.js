@@ -15,8 +15,8 @@ const userSchema = Schema(
     },
     password: {
       type: String,
-      required: true,
-      minlength: 7,
+      // required: true,
+      // minlength: 7,
     },
     token: {
       type: String,

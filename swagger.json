@@ -209,9 +209,7 @@
                   "status": "success",
                   "code": 200,
                   "data": {
-                    "user": {
                       "balance": 10000
-                    }
                   }
                 }
               }
@@ -254,7 +252,7 @@
         },
         "responses": {
           "201": {
-            "description": "Balance is recieved",
+            "description": "Balance is changed",
             "content": {
               "application/json": {
                 "example": {
@@ -333,7 +331,7 @@
                     "createdAt": "2022-01-18T21:27:33.015Z",
                     "updatedAt": "2022-01-18T21:27:33.015Z"
                   },
-                  "balance": 10222.220000000001
+                  "balance": 10222.22
                 }
               }
             }
