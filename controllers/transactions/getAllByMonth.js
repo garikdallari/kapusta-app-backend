@@ -1,5 +1,6 @@
 const { Transaction } = require('../../models');
 const { removeLeadZeroString } = require('../../helpers');
+const { expenseArray, incomeArray } = require('../../helpers');
 
 const getAllByMonth = async (req, res) => {
   const { date } = req.params;
@@ -11,49 +12,25 @@ const getAllByMonth = async (req, res) => {
     'date.month': normalizedMonth,
     'date.year': year,
   });
+  const expensePack = data.filter(el => el.type === 'expense');
+  const incomePack = data.filter(el => el.type === 'income');
 
-  const countSumCategories = (type, item, acc) => {
-    if (item.type === type) {
-      if (!acc.hasOwnProperty(type)) {
-        acc[type] = { categories: {} };
-        acc[type].sum = item.amount;
-      } else {
-        acc[type].sum += item.amount;
-      }
-      if (!acc[type].categories.hasOwnProperty([item.category])) {
-        acc[type].categories[item.category] = { subcategories: {} };
-        acc[type].categories[item.category].sum = item.amount;
-      } else {
-        acc[type].categories[item.category].sum += item.amount;
-      }
-      if (
-        !acc[type].categories[item.category].subcategories.hasOwnProperty([
-          item.subcategory,
-        ])
-      ) {
-        acc[type].categories[item.category].subcategories[item.subcategory] =
-          item.amount;
-      } else {
-        acc[type].categories[item.category].subcategories[item.subcategory] +=
-          item.amount;
-      }
-    }
+  const getPack = pack => {
+    const packCopy = JSON.parse(JSON.stringify(pack));
+    const data = packCopy.reduce(
+      (a, c) => ((a[c.category] = (a[c.category] || 0) + c.amount), a),
+      {},
+    );
+    return Object.entries(data);
   };
 
-  const result = data.reduce((acc, item) => {
-    if (item.type === 'income') {
-      countSumCategories('income', item, acc);
-    }
-    if (item.type === 'expense') {
-      countSumCategories('expense', item, acc);
-    }
-    return { ...acc };
-  }, {});
+  const expenseRes = getPack(expensePack);
+  const incomeRes = getPack(incomePack);
 
   res.json({
     status: 'success',
     code: 200,
-    result,
+    result: { expenseRes, incomeRes },
   });
 };
 
