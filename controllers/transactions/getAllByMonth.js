@@ -1,6 +1,6 @@
 const { Transaction } = require('../../models');
 const { removeLeadZeroString } = require('../../helpers');
-const { getPack } = require('../../helpers');
+const { getPack, getBalance } = require('../../helpers');
 
 const getAllByMonth = async (req, res) => {
   const { date } = req.params;
@@ -21,6 +21,9 @@ const getAllByMonth = async (req, res) => {
   const subcategoryIncomeRes = getPack(incomePack, 'subcategory');
   const subcategoryExpenseRes = getPack(expensePack, 'subcategory');
 
+  const expenseBalanceByMonth = getBalance(expensePack) * -1;
+  const incomeBalanceByMonth = getBalance(incomePack);
+
   res.json({
     status: 'success',
     code: 200,
@@ -29,6 +32,8 @@ const getAllByMonth = async (req, res) => {
       incomeRes,
       subcategoryIncomeRes,
       subcategoryExpenseRes,
+      expenseBalanceByMonth,
+      incomeBalanceByMonth,
     },
   });
 };
