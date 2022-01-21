@@ -4,7 +4,7 @@ const getPack = (pack, key) => {
     (a, c) => ((a[c[key]] = (a[c[key]] || 0) + c.amount), a),
     {},
   );
-  return Object.entries(data);
+  return Object.entries(data).sort((a, b) => b[1] - a[1]);
 };
 
 module.exports = getPack;
