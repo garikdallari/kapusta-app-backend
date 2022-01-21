@@ -51,7 +51,7 @@ const googleRedirect = async (req, res) => {
   let token = '';
 
   const addToken = async id => {
-    token = await jwt.sign({ _id: user._id }, process.env.SECRET_KEY);
+    token = await jwt.sign({ _id: id }, process.env.SECRET_KEY);
     await User.findOneAndUpdate({ email: userData.data.email }, { token });
   };
 
