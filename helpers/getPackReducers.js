@@ -7,4 +7,6 @@ const getPack = (pack, key) => {
   return Object.entries(data).sort((a, b) => b[1] - a[1]);
 };
 
-module.exports = getPack;
+const getBalance = pack => pack.reduce((acc, el) => acc + el.amount, 0);
+
+module.exports = { getPack, getBalance };
