@@ -12,9 +12,7 @@ const getBalance = async (req, res) => {
     status: 'success',
     code: 200,
     data: {
-      user: {
-        balance,
-      },
+      balance,
     },
   });
 };
