@@ -58,12 +58,15 @@ const transactionSchema = new Schema(
         minLength: 4,
         maxLength: 4,
       },
-      // date validation
     },
     owner: {
       type: Schema.Types.ObjectId,
       ref: 'authUser',
       required: true,
+    },
+    createdAt_ms: {
+      type: String,
+      default: () => Date.now(),
     },
   },
   { versionKey: false, timestamps: true },
