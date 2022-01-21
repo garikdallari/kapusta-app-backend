@@ -6,15 +6,15 @@
   },
   "servers": [
     {
-      "url": "https://kapusta-33-5-api.herokuapp.com"
+      "url": "https://kapusta-33-5-api.herokuapp.com/api"
     },
     {
-      "url": "http://localhost:8000",
+      "url": "http://localhost:8000/api",
       "description": "Local server"
     }
   ],
   "paths": {
-    "/api/auth/signup": {
+    "/auth/signup": {
       "post": {
         "tags": ["User"],
         "summary": "Create user",
@@ -62,7 +62,7 @@
         }
       }
     },
-    "/api/auth/login": {
+    "/auth/login": {
       "post": {
         "tags": ["User"],
         "summary": "Login user",
@@ -108,7 +108,7 @@
         }
       }
     },
-    "/api/auth/current": {
+    "/auth/current": {
       "get": {
         "tags": ["User"],
         "summary": "Get information about current user",
@@ -148,7 +148,7 @@
         }
       }
     },
-    "/api/auth/logout": {
+    "/auth/logout": {
       "get": {
         "tags": ["User"],
         "summary": "Logout user",
@@ -185,7 +185,18 @@
         }
       }
     },
-    "/api/auth/balance": {
+    "/auth/google": {
+      "get": {
+        "tags": ["User"],
+        "summary": "Login user by Google OAuth",
+        "responses": {
+          "-": {
+            "description": "Return user token in query parameter 'token': '/google?token={token}'"
+          }
+        }
+      }
+    },
+    "/balance": {
       "get": {
         "tags": ["Balance"],
         "summary": "Get balance",
@@ -209,7 +220,7 @@
                   "status": "success",
                   "code": 200,
                   "data": {
-                      "balance": 10000
+                    "balance": 10000
                   }
                 }
               }
@@ -272,7 +283,7 @@
         }
       }
     },
-    "/api/transactions": {
+    "/transactions": {
       "post": {
         "tags": ["Transactions"],
         "summary": "Create transaction",
@@ -328,6 +339,7 @@
                     },
                     "owner": "61e721ce069ff72c4d9481db",
                     "_id": "61e730c51fbb82b1c1d40cb9",
+                    "createdAt_ms": "1642762084631",
                     "createdAt": "2022-01-18T21:27:33.015Z",
                     "updatedAt": "2022-01-18T21:27:33.015Z"
                   },
@@ -345,7 +357,7 @@
         }
       }
     },
-    "/api/{transactionId}": {
+    "/transactions/{transactionId}": {
       "delete": {
         "tags": ["Transactions"],
         "summary": "Delete transaction",
@@ -409,7 +421,7 @@
         }
       }
     },
-    "/api/transactions/getAllByType/{transactionType}": {
+    "/transactions/getAllByType/{transactionType}": {
       "get": {
         "tags": ["Transactions"],
         "summary": "Get all transactions by type",
@@ -488,7 +500,7 @@
         }
       }
     },
-    "/getAllByMonth/{date}": {
+    "/transactions/getAllByMonth/{date}": {
       "get": {
         "tags": ["Transactions"],
         "summary": "Get summary by categories and subcategories",
@@ -573,7 +585,7 @@
         }
       }
     },
-    "/getBalanceBy6Month/{type}": {
+    "/transactions/getBalanceBy6Month/{type}": {
       "get": {
         "tags": ["Transactions"],
         "summary": "Get amounts for the last 6 months",
