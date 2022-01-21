@@ -1,7 +1,7 @@
-const jwt = require("jsonwebtoken");
-const { Conflict } = require("http-errors");
+const jwt = require('jsonwebtoken');
+const { Conflict } = require('http-errors');
 const { SECRET_KEY } = process.env;
-const { auth } = require("../../models");
+const { auth } = require('../../models');
 const { User } = auth;
 
 const register = async (req, res) => {
@@ -11,18 +11,19 @@ const register = async (req, res) => {
 
   const newUser = new User({ name, email });
   newUser.setPassword(password);
-  newUser.save();
+  await newUser.save();
 
   const { _id } = newUser;
   const payload = {
     _id,
   };
   const token = jwt.sign(payload, SECRET_KEY);
+  await User.findByIdAndUpdate(_id, { token });
 
   res.status(201).json({
-    status: "success",
+    status: 'success',
     code: 201,
-    message: "Registration is successful",
+    message: 'Registration is successful',
     data: {
       token,
       user: {
