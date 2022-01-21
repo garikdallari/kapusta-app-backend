@@ -1,6 +1,6 @@
 const { Transaction } = require('../../models');
 const { removeLeadZeroString } = require('../../helpers');
-const { expenseArray, incomeArray } = require('../../helpers');
+const { getPack } = require('../../helpers');
 
 const getAllByMonth = async (req, res) => {
   const { date } = req.params;
@@ -12,25 +12,24 @@ const getAllByMonth = async (req, res) => {
     'date.month': normalizedMonth,
     'date.year': year,
   });
+
   const expensePack = data.filter(el => el.type === 'expense');
   const incomePack = data.filter(el => el.type === 'income');
 
-  const getPack = pack => {
-    const packCopy = JSON.parse(JSON.stringify(pack));
-    const data = packCopy.reduce(
-      (a, c) => ((a[c.category] = (a[c.category] || 0) + c.amount), a),
-      {},
-    );
-    return Object.entries(data);
-  };
-
-  const expenseRes = getPack(expensePack);
-  const incomeRes = getPack(incomePack);
+  const expenseRes = getPack(expensePack, 'category');
+  const incomeRes = getPack(incomePack, 'category');
+  const subcategoryIncomeRes = getPack(incomePack, 'subcategory');
+  const subcategoryExpenseRes = getPack(expensePack, 'subcategory');
 
   res.json({
     status: 'success',
     code: 200,
-    result: { expenseRes, incomeRes },
+    result: {
+      expenseRes,
+      incomeRes,
+      subcategoryIncomeRes,
+      subcategoryExpenseRes,
+    },
   });
 };
 
