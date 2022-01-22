@@ -7,6 +7,7 @@ const {
   getAllByType,
   deleteTransaction,
   getBalanceBy6Month,
+  listAllTransactions,
 } = require('../../controllers');
 const { authenticate, ctrlWrapper, validation } = require('../../middlewares');
 const { joiTransactionsSchema } = require('../../models');
@@ -25,5 +26,6 @@ router.get(
   authenticate,
   ctrlWrapper(getBalanceBy6Month),
 );
+router.get('/', authenticate, ctrlWrapper(listAllTransactions));
 
 module.exports = router;
