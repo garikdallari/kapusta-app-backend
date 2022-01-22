@@ -8,7 +8,8 @@ const getAllByType = async (req, res) => {
     if(!data) {
         throw new NotFound('Please, login!');
     };
-    const result = data.filter((element) => element.type === type);
+    const result1 = data.filter((element) => element.type === type);
+    const result = result1.sort()
     res.json({
         status: 'success',
         code: 200,
