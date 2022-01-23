@@ -52,10 +52,15 @@ const joiLoginSchema = Joi.object({
   password: Joi.string().min(7).required(),
 });
 
+const joiBalanceSchema = Joi.object({
+  balance: Joi.number().required(),
+});
+
 const User = model('authUser', userSchema);
 
 module.exports = {
   joiRegisterSchema,
   joiLoginSchema,
+  joiBalanceSchema,
   User,
 };
