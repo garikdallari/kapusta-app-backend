@@ -3,6 +3,7 @@ const removeLeadZeroString = require('./removeLeadZeroString');
 const normalizeSum = require('./normalizeSum');
 const { expenseArray, incomeArray } = require('./iconsNameWarehouse');
 const { getPack, getBalance } = require('./getPackReducers');
+const sortTransactions = require('./sortTransactions');
 
 module.exports = {
   updateBalance,
@@ -12,4 +13,5 @@ module.exports = {
   incomeArray,
   getPack,
   getBalance,
+  sortTransactions,
 };

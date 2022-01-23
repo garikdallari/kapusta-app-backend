@@ -30,7 +30,7 @@ const createTransaction = async (req, res) => {
     owner: _id,
   });
 
-  const balance = await updateBalance(_id, amount, type);
+  const balance = await updateBalance(_id, normalizedAmount, type);
 
   res.status(201).json({
     status: 'success',
