@@ -1,7 +1,11 @@
 const express = require('express');
 
 const { ctrlWrapper, authenticate } = require('../../middlewares');
-const { getBalance, setBalance } = require('../../controllers');
+const {
+  getBalance,
+  setBalance,
+  firstSetBalance,
+} = require('../../controllers');
 const { validation } = require('../../middlewares');
 const {
   auth: { joiBalanceSchema },
@@ -16,5 +20,6 @@ router.patch(
   validation(joiBalanceSchema),
   ctrlWrapper(setBalance),
 );
+router.patch('/firstSetBalance', authenticate, ctrlWrapper(firstSetBalance));
 
 module.exports = router;
