@@ -1,12 +1,14 @@
 const {Transaction} = require('../../models');
 const {NotFound} = require('http-errors');
+const {sortTransactions} = require('../../helpers')
 
 const listAllTransactions = async (req, res) => {
     const {_id} = req.user;
-    const transactions = await Transaction.find({owner: _id});
-    if(!transactions) {
+    const data = await Transaction.find({owner: _id});
+    if(!data) {
         throw new NotFound('Please, login!')
     };
+    const transactions = await sortTransactions(data);
     res.json({
         status: 'success',
         code: 200,
