@@ -1,5 +1,6 @@
 const { Transaction } = require('../../models');
 const { removeLeadZeroString } = require('../../helpers');
+const { getPack, getBalance } = require('../../helpers');
 
 const getAllByMonth = async (req, res) => {
   const { date } = req.params;
@@ -12,86 +13,28 @@ const getAllByMonth = async (req, res) => {
     'date.year': year,
   });
 
-  const getDataByType = (type, item, acc) => {
-    if (item.type === type) {
-      if (!acc.hasOwnProperty(type)) {
-        acc[type] = { categories: {} };
-        acc[type].sum = item.amount;
-      } else {
-        acc[type].sum += item.amount;
-      }
-      if (!acc[type].categories.hasOwnProperty([item.category])) {
-        acc[type].categories[item.category] = { subcategories: {} }; // {subcategory: 'pills', amount: 400}
-        acc[type].categories[item.category].sum = item.amount;
-      } else {
-        acc[type].categories[item.category].sum += item.amount;
-      }
-      if (
-        !acc[type].categories[item.category].subcategories.hasOwnProperty([
-          item.subcategory,
-        ])
-      ) {
-        acc[type].categories[item.category].subcategories[item.subcategory] =
-          item.amount;
-      } else {
-        acc[type].categories[item.category].subcategories[item.subcategory] +=
-          item.amount;
-      }
-    }
-  };
+  const expensePack = data.filter(el => el.type === 'expense');
+  const incomePack = data.filter(el => el.type === 'income');
 
-  const allData = data.reduce((acc, item) => {
-    if (item.type === 'income') {
-      getDataByType('income', item, acc);
-    }
-    if (item.type === 'expense') {
-      getDataByType('expense', item, acc);
-    }
-    return { ...acc };
-  }, {});
+  const expenseRes = getPack(expensePack, 'category');
+  const incomeRes = getPack(incomePack, 'category');
+  const subcategoryIncomeRes = getPack(incomePack, 'subcategory');
+  const subcategoryExpenseRes = getPack(expensePack, 'subcategory');
 
-  const getCategories = type => {
-    const arr = [];
-    for (let item in allData[type].categories) {
-      arr.push({
-        category: item,
-        sum: allData[type].categories[item].sum,
-      });
-    }
-
-    return arr;
-  };
-
-  const getSubcategories = type => {
-    const obj = {};
-    for (let item in allData[type].categories) {
-      obj[item] = [allData[type].categories[item].subcategories];
-      obj[item] = Object.keys(allData[type].categories[item].subcategories).map(
-        i => {
-          return {
-            subcategory: i,
-            sum: allData[type].categories[item].subcategories[i],
-          };
-        },
-      );
-    }
-
-    return obj;
-  };
-
-  const result = {
-    incomeSum: allData.income.sum,
-    expenseSum: allData.expense.sum,
-    incomeCategories: getCategories('income'),
-    expenseCategories: getCategories('expense'),
-    incomeSubcategories: getSubcategories('income'),
-    expenseSubcategories: getSubcategories('expense'),
-  };
+  const expenseBalanceByMonth = getBalance(expensePack) * -1;
+  const incomeBalanceByMonth = getBalance(incomePack);
 
   res.json({
     status: 'success',
     code: 200,
-    result,
+    result: {
+      expenseRes,
+      incomeRes,
+      subcategoryIncomeRes,
+      subcategoryExpenseRes,
+      expenseBalanceByMonth,
+      incomeBalanceByMonth,
+    },
   });
 };
 
