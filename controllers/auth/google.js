@@ -60,6 +60,7 @@ const googleRedirect = async (req, res) => {
       name: userData.data.name,
       email: userData.data.email,
     });
+    const user = await User.findOne({ email: userData.data.email });
     await addToken(user._id);
   } else {
     await addToken(user._id);

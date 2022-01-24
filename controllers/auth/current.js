@@ -1,4 +1,4 @@
-const { auth } = require("../../models");
+const { auth } = require('../../models');
 const { User } = auth;
 
 const current = async (req, res) => {
@@ -6,11 +6,12 @@ const current = async (req, res) => {
   const result = await User.findOne({ _id });
 
   res.json({
-    status: "success",
+    status: 'success',
     code: 200,
     data: {
       name: result.name,
       email: result.email,
+      isBalanceSet: result.isBalanceSet,
     },
   });
 };
