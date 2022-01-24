@@ -26,6 +26,10 @@ const userSchema = Schema(
       type: Number,
       default: 0,
     },
+    isBalanceSet: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     versionKey: false,
