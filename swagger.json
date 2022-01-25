@@ -284,7 +284,187 @@
         }
       }
     },
+    "/balance/firstSetBalance": {
+      "patch": {
+        "tags": ["Balance"],
+        "summary": "Show whether balance is set",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "description": "Token is given to the user",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Balance is set",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "code": 201,
+                  "result": {
+                    "isBalanceSet": true,
+                    "balance": 28477.77
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
     "/transactions": {
+      "get": {
+        "tags": ["Transactions"],
+        "summary": "Get all transactions",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "description": "Token is given to the user",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Transactions are recieved",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "code": 200,
+                  "data": {
+                    "transactions": [
+                      {
+                        "date": {
+                          "day": "18",
+                          "month": "1",
+                          "year": "2022"
+                        },
+                        "balance": 0,
+                        "_id": "61eff56968294a42b065c055",
+                        "type": "expense",
+                        "amount": 111.11,
+                        "category": "food",
+                        "subcategory": "milk",
+                        "owner": "61eff1ff7e84f8c21781515b",
+                        "createdAt_ms": "1643115881944",
+                        "createdAt": "2022-01-25T13:04:41.948Z",
+                        "updatedAt": "2022-01-25T13:04:41.948Z"
+                      },
+                      {
+                        "date": {
+                          "day": "18",
+                          "month": "1",
+                          "year": "2022"
+                        },
+                        "balance": 0,
+                        "_id": "61eff6e752030941979ecb5e",
+                        "type": "expense",
+                        "amount": 111.11,
+                        "category": "food",
+                        "subcategory": "milk",
+                        "owner": "61eff1ff7e84f8c21781515b",
+                        "createdAt_ms": "1643116263959",
+                        "createdAt": "2022-01-25T13:11:03.961Z",
+                        "updatedAt": "2022-01-25T13:11:03.961Z"
+                      },
+                      {
+                        "date": {
+                          "day": "18",
+                          "month": "1",
+                          "year": "2022"
+                        },
+                        "_id": "61effe693ae26f1b92dffeb0",
+                        "type": "expense",
+                        "amount": 111.11,
+                        "category": "food",
+                        "subcategory": "milk",
+                        "balance": 8777.77,
+                        "owner": "61eff1ff7e84f8c21781515b",
+                        "createdAt_ms": "1643118185545",
+                        "createdAt": "2022-01-25T13:43:05.553Z",
+                        "updatedAt": "2022-01-25T13:43:05.553Z"
+                      },
+                      {
+                        "date": {
+                          "day": "18",
+                          "month": "1",
+                          "year": "2022"
+                        },
+                        "_id": "61f0040c4d788e7fa7e246b0",
+                        "type": "income",
+                        "amount": 20000,
+                        "category": "salary",
+                        "subcategory": "January",
+                        "balance": 28777.77,
+                        "owner": "61eff1ff7e84f8c21781515b",
+                        "createdAt_ms": "1643119628296",
+                        "createdAt": "2022-01-25T14:07:08.301Z",
+                        "updatedAt": "2022-01-25T14:07:08.301Z"
+                      },
+                      {
+                        "date": {
+                          "day": "18",
+                          "month": "1",
+                          "year": "2022"
+                        },
+                        "_id": "61f005099dd99ec80de1f564",
+                        "type": "expense",
+                        "amount": 100,
+                        "category": "food",
+                        "subcategory": "bread",
+                        "balance": 28677.77,
+                        "owner": "61eff1ff7e84f8c21781515b",
+                        "createdAt_ms": "1643119881870",
+                        "createdAt": "2022-01-25T14:11:21.881Z",
+                        "updatedAt": "2022-01-25T14:11:21.881Z"
+                      },
+                      {
+                        "date": {
+                          "day": "18",
+                          "month": "12",
+                          "year": "2021"
+                        },
+                        "_id": "61f005139dd99ec80de1f569",
+                        "type": "expense",
+                        "amount": 100,
+                        "category": "food",
+                        "subcategory": "bread",
+                        "balance": 28577.77,
+                        "owner": "61eff1ff7e84f8c21781515b",
+                        "createdAt_ms": "1643119891610",
+                        "createdAt": "2022-01-25T14:11:31.613Z",
+                        "updatedAt": "2022-01-25T14:11:31.613Z"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
       "post": {
         "tags": ["Transactions"],
         "summary": "Create transaction",
@@ -538,42 +718,35 @@
                   "status": "success",
                   "code": 200,
                   "result": {
-                    "expense": {
-                      "categories": {
-                        "food": {
-                          "subcategories": {
-                            "milk": 111.11,
-                            "bread": 30
-                          },
-                          "sum": 141.11
-                        },
-                        "activities": {
-                          "subcategories": {
-                            "movie": 150,
-                            "others": 150
-                          },
-                          "sum": 300
+                    "incomeSum": 20000,
+                    "expenseSum": 1222.2,
+                    "incomeCategories": [
+                      {
+                        "category": "salary",
+                        "sum": 20000
+                      }
+                    ],
+                    "expenseCategories": [
+                      {
+                        "category": "food",
+                        "sum": 1222.2
+                      }
+                    ],
+                    "incomeSubcategories": {
+                      "salary": [
+                        {
+                          "subcategory": "January",
+                          "sum": 20000
                         }
-                      },
-                      "sum": 441.11
+                      ]
                     },
-                    "income": {
-                      "categories": {
-                        "salary": {
-                          "subcategories": {
-                            "others": 15000
-                          },
-                          "sum": 15000
-                        },
-                        "extra_income": {
-                          "subcategories": {
-                            "bonus": 5000,
-                            "others": 7000
-                          },
-                          "sum": 12000
+                    "expenseSubcategories": {
+                      "food": [
+                        {
+                          "subcategory": "milk",
+                          "sum": 1222.2
                         }
-                      },
-                      "sum": 27000
+                      ]
                     }
                   }
                 }
@@ -624,19 +797,40 @@
                   "result": {
                     "balanceByMonth": [
                       {
+                        "_id": "1",
+                        "month": "1",
+                        "amount": 13022.21,
+                        "type": "expense"
+                      },
+                      {
+                        "_id": "12",
                         "month": "12",
-                        "amount": 7000,
-                        "type": "income"
+                        "amount": 22000,
+                        "type": "expense"
                       },
                       {
+                        "_id": "11",
                         "month": "11",
-                        "amount": 14000,
-                        "type": "income"
+                        "amount": 27010.75,
+                        "type": "expense"
                       },
                       {
+                        "_id": "10",
                         "month": "10",
-                        "amount": 10000,
-                        "type": "income"
+                        "amount": 13010.4,
+                        "type": "expense"
+                      },
+                      {
+                        "_id": "9",
+                        "month": "9",
+                        "amount": 16200.33,
+                        "type": "expense"
+                      },
+                      {
+                        "_id": "8",
+                        "month": "8",
+                        "amount": 19015.1,
+                        "type": "expense"
                       }
                     ]
                   }

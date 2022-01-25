@@ -14,7 +14,10 @@ const firstSetBalance = async (req, res, next) => {
   res.status(201).json({
     status: 'success',
     code: 201,
-    balance: updatedUser,
+    result: {
+      isBalanceSet: updatedUser.isBalanceSet,
+      balance: updatedUser.balance,
+    },
   });
 };
 
