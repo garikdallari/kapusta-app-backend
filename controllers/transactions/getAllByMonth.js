@@ -21,7 +21,7 @@ const getAllByMonth = async (req, res) => {
         acc[type].sum += item.amount;
       }
       if (!acc[type].categories.hasOwnProperty([item.category])) {
-        acc[type].categories[item.category] = { subcategories: {} }; // {subcategory: 'pills', amount: 400}
+        acc[type].categories[item.category] = { subcategories: {} };
         acc[type].categories[item.category].sum = item.amount;
       } else {
         acc[type].categories[item.category].sum += item.amount;
@@ -52,7 +52,7 @@ const getAllByMonth = async (req, res) => {
 
   const getCategories = type => {
     const arr = [];
-    for (let item in allData[type].categories) {
+    for (let item in allData[type]?.categories) {
       arr.push({
         category: item,
         sum: allData[type].categories[item].sum,
@@ -64,7 +64,7 @@ const getAllByMonth = async (req, res) => {
 
   const getSubcategories = type => {
     const obj = {};
-    for (let item in allData[type].categories) {
+    for (let item in allData[type]?.categories) {
       obj[item] = [allData[type].categories[item].subcategories];
       obj[item] = Object.keys(allData[type].categories[item].subcategories).map(
         i => {
@@ -80,8 +80,8 @@ const getAllByMonth = async (req, res) => {
   };
 
   const result = {
-    incomeSum: allData.income.sum,
-    expenseSum: allData.expense.sum,
+    incomeSum: allData.income?.sum ?? 0,
+    expenseSum: allData.expense?.sum ?? 0,
     incomeCategories: getCategories('income'),
     expenseCategories: getCategories('expense'),
     incomeSubcategories: getSubcategories('income'),
