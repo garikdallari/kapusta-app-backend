@@ -16,7 +16,7 @@ const setBalance = async (req, res) => {
 
   res.status(201).json({
     status: 'success',
-    code: 201,
+    code: 200,
     balance: updatedUser.balance,
   });
 };

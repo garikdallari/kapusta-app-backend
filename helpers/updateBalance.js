@@ -1,10 +1,12 @@
+const normalizeSum = require('./normalizeSum');
+
 const {
   auth: { User },
 } = require('../models');
 
 const updateBalance = async (_id, amount, type) => {
-  console.log(_id, amount, type);
   const user = await User.findOne({ _id });
+
   let balance = user.balance;
   if (type === 'income') {
     balance += amount;
@@ -12,9 +14,12 @@ const updateBalance = async (_id, amount, type) => {
   if (type === 'expense') {
     balance -= amount;
   }
+
+  const normalizedBalance = normalizeSum(balance);
+
   const updatedUser = await User.findOneAndUpdate(
     { _id },
-    { balance },
+    { balance: normalizedBalance },
     { new: true },
   );
   return updatedUser.balance;

@@ -17,11 +17,14 @@ const createTransaction = async (req, res) => {
 
   const normalizedAmount = normalizeSum(amount);
 
+  const balance = await updateBalance(_id, normalizedAmount, type);
+
   const transaction = {
     type,
     amount: normalizedAmount,
     category,
     subcategory,
+    balance,
     date: normalizedDate,
   };
 
@@ -30,13 +33,10 @@ const createTransaction = async (req, res) => {
     owner: _id,
   });
 
-  const balance = await updateBalance(_id, normalizedAmount, type);
-
   res.status(201).json({
     status: 'success',
     code: 201,
     data: newTransaction,
-    balance,
   });
 };
 

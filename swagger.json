@@ -125,7 +125,7 @@
         ],
         "responses": {
           "200": {
-            "description": "User is created",
+            "description": "Info about current authorized user",
             "content": {
               "application/json": {
                 "example": {
@@ -133,7 +133,8 @@
                   "code": 200,
                   "data": {
                     "name": "Vasyl",
-                    "email": "vasyl@gmail.com"
+                    "email": "vasyl@gmail.com",
+                    "isBalanceSet": false
                   }
                 }
               }
@@ -262,13 +263,13 @@
           }
         },
         "responses": {
-          "201": {
+          "200": {
             "description": "Balance is changed",
             "content": {
               "application/json": {
                 "example": {
                   "status": "success",
-                  "code": 201,
+                  "code": 200,
                   "balance": 10000
                 }
               }
@@ -332,6 +333,7 @@
                     "amount": 111.11,
                     "category": "food",
                     "subcategory": "milk",
+                    "balance": 8650.55,
                     "date": {
                       "day": "18",
                       "month": "1",
@@ -342,8 +344,7 @@
                     "createdAt_ms": "1642762084631",
                     "createdAt": "2022-01-18T21:27:33.015Z",
                     "updatedAt": "2022-01-18T21:27:33.015Z"
-                  },
-                  "balance": 10222.22
+                  }
                 }
               }
             }
@@ -382,7 +383,7 @@
           }
         ],
         "responses": {
-          "201": {
+          "200": {
             "description": "Transaction is deleted",
             "content": {
               "application/json": {
@@ -401,6 +402,7 @@
                     "amount": 111.11,
                     "category": "food",
                     "subcategory": "milk",
+                    "balance": 8650.55,
                     "owner": "61e721ce069ff72c4d9481db",
                     "createdAt": "2022-01-18T21:27:33.015Z",
                     "updatedAt": "2022-01-18T21:27:33.015Z"
@@ -466,6 +468,7 @@
                         "amount": 111.11,
                         "category": "food",
                         "subcategory": "milk",
+                        "balance": 8888.89,
                         "owner": "61e721ce069ff72c4d9481db",
                         "createdAt": "2022-01-18T21:25:51.906Z",
                         "updatedAt": "2022-01-18T21:25:51.906Z"
@@ -481,6 +484,7 @@
                         "amount": 111.11,
                         "category": "food",
                         "subcategory": "milk",
+                        "balance": 8888.89,
                         "owner": "61e721ce069ff72c4d9481db",
                         "createdAt": "2022-01-18T21:25:56.214Z",
                         "updatedAt": "2022-01-18T21:25:56.214Z"
