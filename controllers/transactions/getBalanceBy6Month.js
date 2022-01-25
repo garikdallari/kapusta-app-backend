@@ -8,12 +8,12 @@ const getBalanceBy6Month = async (req, res) => {
     let currentMonth = currentDate.getMonth() + 1;
     let currentYear = currentDate.getFullYear();
     const monthArr = [];
-    const yearArr = [currentYear.toString()];
-    let balanceByMonth = [];   
+    const yearArr = [];
 
     for (let i = 6; i > 0; i--) {
         if (currentMonth > 0) {
           monthArr.push(String(currentMonth));
+          yearArr.push(String(currentYear));
           currentMonth--;
         } else {
           currentMonth += 12;
@@ -24,37 +24,22 @@ const getBalanceBy6Month = async (req, res) => {
         }
     };
 
-    const data = await Transaction.find({owner: _id, type: type});
-
-    const sortArr = data.reduce((accumulator, element, _, array) => {
-        let {date, amount, _id} = element;
-        const {month, year} = date;
-        let total = 0;
-
-        if(!monthArr.includes(month) || !yearArr.includes(year)) {
-          return;
-        };
-
-        array.forEach(element => {
-          if(month !== element.date.month) {
-            return;
-          } else if (_id !== element._id) {
-            total = amount + element.amount;
-          } else {
-            return total = amount;
-          }
-        });
-
-        accumulator = {month: month, amount: total, type};
-
-        const condition = balanceByMonth.some((element) => element.month === month);
-
-        if(condition) {
-            return;
-        };
-
-        balanceByMonth.push(accumulator)
-    }, {});
+    const balanceByMonth = await Transaction.aggregate([
+        {$match: {owner: _id, type: type, 
+          $or: [{"date.month": monthArr[0], "date.year": yearArr[0]},
+          {"date.month": monthArr[1], "date.year": yearArr[1]},
+          {"date.month": monthArr[2], "date.year": yearArr[2]},
+          {"date.month": monthArr[3], "date.year": yearArr[3]},
+          {"date.month": monthArr[4], "date.year": yearArr[4]},
+          {"date.month": monthArr[5], "date.year": yearArr[5]},
+        ]
+        }},
+        {$group: {_id: "$date.month",
+          month: {$first: "$date.month"},
+          amount: {$sum: "$amount"},
+          type: {$first: "$type"}
+      }}
+    ])
 
     res.json({
         status: 'success',
