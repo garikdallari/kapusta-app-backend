@@ -39,6 +39,10 @@ const transactionSchema = new Schema(
       type: String,
       default: 'others',
     },
+    balance: {
+      type: Number,
+      default: 0,
+    },
     date: {
       day: {
         type: String,
