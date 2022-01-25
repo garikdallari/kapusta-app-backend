@@ -3,7 +3,6 @@ const {
 } = require('../models');
 
 const updateBalance = async (_id, amount, type) => {
-  console.log(_id, amount, type);
   const user = await User.findOne({ _id });
   let balance = user.balance;
   if (type === 'income') {
