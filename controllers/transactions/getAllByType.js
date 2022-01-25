@@ -1,5 +1,6 @@
 const {NotFound} = require('http-errors');
 const {Transaction} = require('../../models');
+const {sortTransactions} = require('../../helpers')
 
 const getAllByType = async (req, res) => {
     const {type} = req.params;
@@ -8,8 +9,8 @@ const getAllByType = async (req, res) => {
     if(!data) {
         throw new NotFound('Please, login!');
     };
-    const result1 = data.filter((element) => element.type === type);
-    const result = result1.sort()
+    const filter = data.filter((element) => element.type === type);
+    const result = await sortTransactions(filter);
     res.json({
         status: 'success',
         code: 200,
