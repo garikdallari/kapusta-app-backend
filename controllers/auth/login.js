@@ -1,9 +1,9 @@
-const jwt = require("jsonwebtoken");
-const { Unauthorized } = require("http-errors");
+const jwt = require('jsonwebtoken');
+const { Unauthorized } = require('http-errors');
 const { SECRET_KEY } = process.env;
-const { auth } = require("../../models");
+const { auth } = require('../../models');
 const { User } = auth;
-const createError = new Unauthorized("User is not authorized");
+const createError = new Unauthorized('User is not authorized');
 
 const login = async (req, res, next) => {
   const { email, password } = req.body;
@@ -19,14 +19,15 @@ const login = async (req, res, next) => {
   await User.findByIdAndUpdate(_id, { token });
 
   res.json({
-    status: "success",
+    status: 'success',
     code: 200,
     data: {
       token,
       user: {
         name: user.name,
-        email 
-        },
+        email,
+        isBalanceSet: user.isBalanceSet,
+      },
     },
   });
 };
